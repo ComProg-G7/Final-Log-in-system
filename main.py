@@ -26,6 +26,11 @@ def unlock_login():
     attempts = 0
     login_button.config(state="normal")
 
+    messagebox.showinfo(
+        "Unlocked",
+        "You can now try logging in again."
+    )
+
 # -----------------------------
 # LOGIN FUNCTION
 # -----------------------------
@@ -554,7 +559,7 @@ tk.Button(
 
 dark_button = tk.Button(
     root,
-    text="🌙",
+    text="🌙 Dark",
     width=3,
     command=toggle_dark_mode
 )
