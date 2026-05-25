@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import os
 import random
+import re
 
 # -----------------------------
 # DATABASE FILE
@@ -94,6 +95,49 @@ def create_account():
                 "Please fill all fields!"
             )
 
+            create_window.lift()
+            create_window.focus_force()
+
+            return
+        
+        # Password validation
+        # Must be at least 8 characters long
+        if len(password) < 8:
+
+            messagebox.showerror(
+                "Weak Password",
+                "Password must be at least 8 characters long!"
+            )
+
+            create_window.lift()
+            create_window.focus_force()
+
+            return
+
+        # Must contain digit
+        if not re.search(r"\d", password):
+
+            messagebox.showerror(
+                "Weak Password",
+                "Password must contain at least one digit!"
+            )
+
+            create_window.lift()
+            create_window.focus_force()
+
+            return
+
+        # Must contain special character
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+
+            messagebox.showerror(
+                "Weak Password",
+                "Password must contain at least one special character!"
+            )
+
+            create_window.lift()
+            create_window.focus_force()
+
             return
 
         # Check if username exists
@@ -112,6 +156,9 @@ def create_account():
                         "Error",
                         "Username already exists!"
                     )
+
+                    create_window.lift()
+                    create_window.focus_force()
 
                     return
 
