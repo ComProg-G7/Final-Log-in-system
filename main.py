@@ -62,7 +62,8 @@ def create_account():
 
     tk.Label(
         create_window,
-        text="Username"
+        text="Username",
+        fg ="#1F2937",
     ).pack(pady=5)
 
     new_username = tk.Entry(
@@ -73,7 +74,8 @@ def create_account():
 
     tk.Label(
         create_window,
-        text="Password"
+        text="Password",
+        fg ="#1F2937",
     ).pack(pady=5)
 
     new_password = tk.Entry(
@@ -179,8 +181,8 @@ def create_account():
     tk.Button(
         create_window,
         text="Register",
-        bg="green",
-        fg="white",
+        bg="white",
+        fg="#EC4899",
         width=20,
         command=register
     ).pack(pady=20)
@@ -290,8 +292,9 @@ def forgot_password():
     tk.Button(
         forgot_window,
         text="Send OTP",
-        bg="orange",
+        bg="#EC4899",
         fg="white",
+        font=("Poppins", 11, bold),
         width=20,
         command=send_otp
     ).pack(pady=10)
@@ -299,8 +302,9 @@ def forgot_password():
     tk.Button(
         forgot_window,
         text="Verify OTP",
-        bg="green",
+        bg="#3B82F6",
         fg="white",
+        font=("Poppins", 11, bold),
         width=20,
         command=verify_otp
     ).pack(pady=10)
@@ -311,18 +315,21 @@ def forgot_password():
 root = tk.Tk()
 
 root.title("Login System")
-root.geometry("350x300")
+root.geometry("350x450")
 root.resizable(False, False)
 
 tk.Label(
     root,
     text="LOGIN SYSTEM",
-    font=("Arial", 18, "bold")
+    fg="#3B82F6",
+    bg="#FDF2F8",
+    font=("Poppins", 18, "bold")
 ).pack(pady=20)
 
 tk.Label(
     root,
-    text="Username"
+    text="Username",
+    fg="#1F2937",
 ).pack()
 
 username_entry = tk.Entry(
@@ -333,7 +340,8 @@ username_entry.pack(pady=5)
 
 tk.Label(
     root,
-    text="Password"
+    text="Password",
+    fg="#1F2937",
 ).pack()
 
 password_entry = tk.Entry(
@@ -346,15 +354,19 @@ password_entry.pack(pady=5)
 tk.Button(
     root,
     text="Login",
-    width=20,
     bg="blue",
     fg="white",
+    width=20,
     command=login
+    
 ).pack(pady=10)
 
 tk.Button(
     root,
     text="Forgot Password",
+    fg="#EC4899",
+    bg="#FDF2F8",
+    border=0,
     width=20,
     command=forgot_password
 ).pack(pady=5)
@@ -362,6 +374,8 @@ tk.Button(
 tk.Button(
     root,
     text="Create Account",
+    bg="#EC4899",
+    fg="white",
     width=20,
     command=create_account
 ).pack(pady=5)
