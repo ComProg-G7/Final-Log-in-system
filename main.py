@@ -73,17 +73,52 @@ def create_account():
     new_username.pack()
 
     tk.Label(
-        create_window,
-        text="Password",
-        fg ="#1F2937",
+    create_window,
+    text="Password",
+    fg ="#1F2937",
     ).pack(pady=5)
 
+# -----------------------------
+# PASSWORD FRAME (CREATE ACCOUNT)
+# -----------------------------
+    password_frame_create = tk.Frame(create_window)
+    password_frame_create.pack()
+
     new_password = tk.Entry(
-        create_window,
-        width=30,
+        password_frame_create,
+        width=27,
         show="*"
     )
-    new_password.pack()
+    new_password.pack(side="left")
+
+# -----------------------------
+# SHOW / HIDE PASSWORD
+# -----------------------------
+    show_create_password = False
+
+    def toggle_create_password():
+
+        nonlocal show_create_password
+
+        if show_create_password:
+
+            new_password.config(show="*")
+            show_create_button.config(text="👁")
+            show_create_password = False
+
+        else:
+
+            new_password.config(show="")
+            show_create_button.config(text="🙈")
+            show_create_password = True
+
+# Eye button
+    show_create_button = tk.Button(
+        password_frame_create,
+        text="👁",
+        command=toggle_create_password
+    )
+    show_create_button.pack(side="left", padx=5)
 
     def register():
 
@@ -130,7 +165,7 @@ def create_account():
             return
 
         # Must contain special character
-        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        if not re.search(r"[-_!@#$%^&*(),.?\":{}|<>]", password):
 
             messagebox.showerror(
                 "Weak Password",
@@ -344,12 +379,46 @@ tk.Label(
     fg="#1F2937",
 ).pack()
 
+# PASSWORD FRAME (NEW)
+# -----------------------------
+password_frame = tk.Frame(root)
+password_frame.pack(pady=5)
+
 password_entry = tk.Entry(
-    root,
-    width=30,
+    password_frame,
+    width=27,
     show="*"
 )
-password_entry.pack(pady=5)
+password_entry.pack(side="left")
+
+# -----------------------------
+# SHOW / HIDE PASSWORD
+# -----------------------------
+show_password = False
+
+def toggle_password():
+
+    global show_password
+
+    if show_password:
+
+        password_entry.config(show="*")
+        show_button.config(text="👁")
+        show_password = False
+
+    else:
+
+        password_entry.config(show="")
+        show_button.config(text="🙈")
+        show_password = True
+
+# Eye button
+show_button = tk.Button(
+    password_frame,
+    text="👁",
+    command=toggle_password
+)
+show_button.pack(side="left", padx=5)
 
 tk.Button(
     root,
