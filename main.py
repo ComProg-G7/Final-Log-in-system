@@ -14,10 +14,23 @@ if not os.path.exists(DATABASE_FILE):
     with open(DATABASE_FILE, "w") as file:
         file.write("")
 
+
+# -----------------------------
+# LOGIN ATTEMPT LIMIT 
+# -----------------------------
+attempts = 0
+MAX_ATTEMPTS = 3
+
+def unlock_login():
+    global attempts
+    attempts = 0
+    login_button.config(state="normal")
+
 # -----------------------------
 # LOGIN FUNCTION
 # -----------------------------
 def login():
+    global attempts
 
     username = username_entry.get()
     password = password_entry.get()
@@ -38,17 +51,39 @@ def login():
                     password == saved_password
                 ):
 
+                    attempts = 0 #Reset if success
+
                     messagebox.showinfo(
                         "Login Successful",
                         f"Welcome, {username}!"
                     )
 
                     return
+#----------------
+#Failed Log In
+#----------------
+    attempts +=1
+    remaining = MAX_ATTEMPTS-attempts
+    if remaining > 0:
 
-    messagebox.showerror(
-        "Login Failed",
-        "Invalid Username or Password"
-    )
+        messagebox.showerror(
+            "Login Failed",
+            f"Invalid Username or Password\nAttempts left: {remaining}"
+        )
+
+    else:
+
+        messagebox.showerror(
+            "Locked",
+            "Too many failed attempts. Try again in 30 seconds."
+        )
+
+        login_button.config(state="disabled")
+
+        root.after(30000, unlock_login)
+
+
+
 
 # -----------------------------
 # CREATE ACCOUNT FUNCTION
@@ -339,7 +374,7 @@ def forgot_password():
         text="Verify OTP",
         bg="#3B82F6",
         fg="white",
-        font=("Poppins", 11, bold),
+        font=("Poppins", 11, "bold"),
         width=20,
         command=verify_otp
     ).pack(pady=10)
@@ -352,20 +387,25 @@ root = tk.Tk()
 root.title("Login System")
 root.geometry("350x450")
 root.resizable(False, False)
+root.config(bg="lightgrey")
+dark_mode = False
 
-tk.Label(
+
+title_label = tk.Label(
     root,
     text="LOGIN SYSTEM",
     fg="#3B82F6",
-    bg="#FDF2F8",
+    bg="lightgrey",
     font=("Poppins", 18, "bold")
-).pack(pady=20)
+)
+title_label.pack(pady=20)
 
-tk.Label(
+username_label = tk.Label(
     root,
     text="Username",
-    fg="#1F2937",
-).pack()
+    fg="black",
+)
+username_label.pack()
 
 username_entry = tk.Entry(
     root,
@@ -373,15 +413,16 @@ username_entry = tk.Entry(
 )
 username_entry.pack(pady=5)
 
-tk.Label(
+pass_label = tk.Label(
     root,
     text="Password",
-    fg="#1F2937",
-).pack()
+    fg="black",
+)
+pass_label.pack()
 
 # PASSWORD FRAME (NEW)
 # -----------------------------
-password_frame = tk.Frame(root)
+password_frame = tk.Frame(root,bg= "lightgrey")
 password_frame.pack(pady=5)
 
 password_entry = tk.Entry(
@@ -390,7 +431,68 @@ password_entry = tk.Entry(
     show="*"
 )
 password_entry.pack(side="left")
+# DARKMODE
+#-----------------------------
+# ADDED
+def toggle_dark_mode():
 
+    global dark_mode
+
+    if dark_mode:
+
+        # LIGHT MODE
+        root.config(bg="white")
+
+        title_label.config(
+            bg="white",
+            fg="#3B82F6"
+        )
+
+        username_label.config(
+            bg="white",
+            fg="black"
+        )
+
+        pass_label.config(
+            bg="white",
+            fg="black"
+        )
+
+        password_frame.config(bg="white")
+
+        dark_button.config(
+            text="🌙 "
+        )
+
+        dark_mode = False
+
+    else:
+
+        # DARK MODE
+        root.config(bg="#1E1E1E")
+
+        title_label.config(
+            bg="#1E1E1E",
+            fg="cyan"
+        )
+
+        username_label.config(
+            bg="#1E1E1E",
+            fg="white"
+        )
+
+        pass_label.config(
+            bg="#1E1E1E",
+            fg="white"
+        )
+
+        password_frame.config(bg="#1E1E1E")
+
+        dark_button.config(
+            text="☀️"
+        )
+
+        dark_mode = True
 # -----------------------------
 # SHOW / HIDE PASSWORD
 # -----------------------------
@@ -420,15 +522,16 @@ show_button = tk.Button(
 )
 show_button.pack(side="left", padx=5)
 
-tk.Button(
+login_button = tk.Button(
     root,
     text="Login",
     bg="blue",
     fg="white",
     width=20,
     command=login
-    
-).pack(pady=10)
+)
+
+login_button.pack(pady=10)
 
 tk.Button(
     root,
@@ -448,5 +551,13 @@ tk.Button(
     width=20,
     command=create_account
 ).pack(pady=5)
+
+dark_button = tk.Button(
+    root,
+    text="🌙",
+    width=3,
+    command=toggle_dark_mode
+)
+dark_button.pack(side="bottom", anchor="e", padx=10, pady=10)
 
 root.mainloop()
