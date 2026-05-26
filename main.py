@@ -80,12 +80,12 @@ def login():
 
         messagebox.showerror(
             "Locked",
-            "Too many failed attempts. Try again in 30 seconds."
+            "Too many failed attempts. Try again in 10 seconds."
         )
 
         login_button.config(state="disabled")
 
-        root.after(30000, unlock_login)
+        root.after(10000, unlock_login)
 
 
 
@@ -108,7 +108,7 @@ def create_account():
 
     new_username = tk.Entry(
         create_window,
-        width=30
+        width=35
     )
     new_username.pack()
 
@@ -369,7 +369,7 @@ def forgot_password():
         text="Send OTP",
         bg="#EC4899",
         fg="white",
-        font=("Poppins", 11, bold),
+        font=("Poppins", 11, "bold"),
         width=20,
         command=send_otp
     ).pack(pady=10)
@@ -414,7 +414,7 @@ username_label.pack()
 
 username_entry = tk.Entry(
     root,
-    width=30
+    width=35
 )
 username_entry.pack(pady=5)
 
@@ -494,7 +494,7 @@ def toggle_dark_mode():
         password_frame.config(bg="#1E1E1E")
 
         dark_button.config(
-            text="☀️"
+            text=" ☀️"
         )
 
         dark_mode = True
@@ -559,7 +559,7 @@ tk.Button(
 
 dark_button = tk.Button(
     root,
-    text="🌙 Dark",
+    text="🌙",
     width=3,
     command=toggle_dark_mode
 )
